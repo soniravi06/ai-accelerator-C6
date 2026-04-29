@@ -1,0 +1,170 @@
+{
+  "name": "LinkGrow",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Topic- {{ $json.body.topic }}\nWriting Style- {{ $json.body.writing_style }}\nPost Category- {{ $json.body.post_category }}\nPost Length-{{ $json.body.post_length }}",
+        "options": {
+          "systemMessage": "Persona:\nYou are an expert LinkedIn Ghostwriter who has written 2,000+ viral posts for CEOs, founders, creators, and tech professionals. You deeply understand LinkedIn algorithms, storytelling, hooks, audience psychology, and content formats that drive millions of views. You specialise in creating scroll-stopping hooks, emotional storytelling, authority-building insights, and CTAs that spark engagement.\n\nTask:\nCreate a viral-style LinkedIn post based on:\nUse user messsage to get the details on Topic, style, length etc for the post.\n\nDon't use \"# and *\"\" for headers and in the post. Don't use em-dashes\n\nYour job is to craft a LinkedIn post that maximizes reach, engagement, and shares through strong hooks, relatable narratives, crisp formatting, and powerful CTAs.\n\nContext:\nThe post should feel like it was written by a top LinkedIn creator. It must capture attention in the first 2–3 seconds, use pattern-interrupt techniques, create emotional resonance, and deliver real value. Add insights, examples, frameworks, or micro-stories depending on the post type. The goal is to trigger comments, saves, and reposts.\n\nFormat:\nFollow this exact structure:\n\nDon't use \"# and *\"\" for headers and in the post. Don't use em-dashes\n\nHook (1–2 lines, punchy, curiosity-building, scroll-stopping)\n\nBody (story, insight, or breakdown depending on the post type)\n\nValue Section (actionable takeaways, lessons, or frameworks)\n\nCTA (ask a question that encourages comments, or invite people to share their thoughts)\n\nKeep paragraphs short (1–2 lines max).\n\nUse simple English, no jargon.\n\nAdd spacing for readability.\n\nDon't use # and * for headers. \n\nAdd few hashtags related to that topic maximum 4 or 5\n\nTone:\nConversational, bold, authoritative, and engaging—like top LinkedIn creators. No fluff. Every line should deliver value, emotion, or curiosity.\n\nOutput:\nA polished viral-style LinkedIn post ready to publish.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        144,
+        -80
+      ],
+      "id": "813da702-0961-404c-af0f-5062457e5f76",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        48,
+        64
+      ],
+      "id": "dee4ca3e-c339-4fbf-b624-de9a29da6169",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "ggBe4vtqeEYGnxfb",
+          "name": "ai scraper"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        528,
+        -80
+      ],
+      "id": "777c678d-1189-4e93-a867-6209512d39a2",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "57885747-4e35-4b83-9e9e-ef18ece505f2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -112,
+        -80
+      ],
+      "id": "1b06b12d-d9e5-4d31-b654-4a1ad765bda4",
+      "name": "Generate Post",
+      "webhookId": "57885747-4e35-4b83-9e9e-ef18ece505f2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "613b5eb9-3105-472e-b1f7-0ae743bc19c5",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -96,
+        208
+      ],
+      "id": "78817577-495a-4b75-b503-98c970baab3d",
+      "name": "Webhook",
+      "webhookId": "613b5eb9-3105-472e-b1f7-0ae743bc19c5"
+    },
+    {
+      "parameters": {
+        "person": "zelT-F7PM8",
+        "text": "={{ $json.body.text }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        112,
+        208
+      ],
+      "id": "6e589f84-b974-4cfd-9bfe-71bd7a8b0abb",
+      "name": "Create a post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "ky1WVTG2HkwBOAx6",
+          "name": "divij-linkedin"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Post": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create a post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "9eb29d32-48fd-4d29-8cc0-47420fffdd9a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5adcf055af070598f43d6403984bb72f646a6684587b890d0694cbc7278091f8"
+  },
+  "id": "f4Y9KaM8Kyr3o9LG",
+  "tags": []
+}
