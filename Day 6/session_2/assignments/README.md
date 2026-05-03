@@ -4,7 +4,7 @@ This directory contains assignments for Day 6 Session 2, focusing on building RA
 
 ## Assignment 1: Vector Database Creation and Retrieval
 
-**File:** `assignment_1_vector_db_basics.ipynb`  
+**File:** `assignment_1_multimodal_vector_db.ipynb`  
 **Solution:** `assignment_1_solution.ipynb`
 
 ### Objective
@@ -25,7 +25,7 @@ Learn the fundamentals of vector databases by creating a complete document index
 4. **Search Function**: Implement semantic search functionality
 
 ### Instructions
-1. Open `assignment_1_vector_db_basics.ipynb`
+1. Open `assignment_1_multimodal_vector_db.ipynb`
 2. Complete each function by replacing the TODO comments
 3. Run each cell after completing the function to test it
 4. Refer to the existing notebooks in `llamaindex_rag/` folder for examples
@@ -78,7 +78,7 @@ If you get stuck:
 
 ## Assignment 2: Advanced RAG Techniques
 
-**File:** `assignment_2_advanced_rag.ipynb`  
+**File:** `assignment_2_advanced_rag_answer.ipynb`  
 **Solution:** `assignment_2_solution.ipynb`
 
 ### Objective
@@ -108,7 +108,7 @@ Master advanced RAG techniques that transform basic document retrieval into prod
 
 ### Instructions
 1. Complete Assignment 1 before starting this one
-2. Open `assignment_2_advanced_rag.ipynb`
+2. Open `assignment_2_advanced_rag_answer.ipynb`
 3. Complete each function by replacing the TODO comments
 4. Run each cell after completing the function to test it
 5. Refer to the `03_advanced_rag_techniques.ipynb` notebook for examples
